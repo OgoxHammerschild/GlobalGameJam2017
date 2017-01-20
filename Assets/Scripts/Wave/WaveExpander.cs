@@ -22,31 +22,31 @@ public class WaveExpander : MonoBehaviour
     /// </summary>
     public Plane ExpansionPlane = Plane.XZ;
 
-    private float lifeTime;
-    private Transform myTransform;
+    private float _lifeTime;
+    private Transform _myTransform;
 
     // Use this for initialization
     void Start()
     {
-        myTransform = GetComponent<Transform>();
+        _myTransform = GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        lifeTime += Time.deltaTime;
-        if (lifeTime < TotalExpansionTime)
+        _lifeTime += Time.deltaTime;
+        if (_lifeTime < TotalExpansionTime)
         {
             switch (ExpansionPlane)
             {
                 case Plane.XY:
-                    myTransform.localScale += new Vector3(ExpansionPerSecond, ExpansionPerSecond, 0);
+                    _myTransform.localScale += new Vector3(ExpansionPerSecond, ExpansionPerSecond, 0);
                     break;
                 case Plane.XZ:
-                    myTransform.localScale += new Vector3(ExpansionPerSecond, 0, ExpansionPerSecond);
+                    _myTransform.localScale += new Vector3(ExpansionPerSecond, 0, ExpansionPerSecond);
                     break;
                 case Plane.YZ:
-                    myTransform.localScale += new Vector3(0, ExpansionPerSecond, ExpansionPerSecond);
+                    _myTransform.localScale += new Vector3(0, ExpansionPerSecond, ExpansionPerSecond);
                     break;
             }
         }
