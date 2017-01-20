@@ -27,8 +27,8 @@ public class Movement : MonoBehaviour
 
     void MoveCharacter()
     {
-        float horizontal = Input.GetAxis("Horizontal") * Time.deltaTime;
-        float vertical = Input.GetAxis("Vertical") * Time.deltaTime;
+        float horizontal = Input.GetAxis("Horizontal") * Time.deltaTime * _speed;
+        float vertical = Input.GetAxis("Vertical") * Time.deltaTime * _speed;
 
         this.rigid.MovePosition(this.transform.position + this.transform.rotation * new Vector3(horizontal, 0, vertical));
     }
@@ -41,8 +41,6 @@ public class Movement : MonoBehaviour
             if (hit.transform.gameObject.tag == "Ground")
             {
                 this.transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
-                //float angle = Vector2.Angle(new Vector2(transform.position.x, transform.position.z), new Vector2(hit.point.x, hit.point.z));
-                //this.transform.Rotate(Vector3.up, angle);
             }
         }
 
