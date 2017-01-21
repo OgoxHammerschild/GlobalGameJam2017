@@ -5,17 +5,18 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
 
-    Rigidbody rigid;
+    private Rigidbody rigid;
     [SerializeField]
-    private float _speed;
-    [SerializeField]
-    private float _rotationspeed;
+    private float _speed = 1;
+
+    private bool hasMoved = false;
+
+    public GameObject WaveSpawn;
     // Use this for initialization
     void Start()
     {
         this.rigid = GetComponent<Rigidbody>();
-        _speed = 5;
-        _rotationspeed = 0.05f;
+        StartCoroutine(SpawnWave());
     }
 
     // Update is called once per frame
@@ -30,7 +31,12 @@ public class Movement : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal") * Time.deltaTime * _speed;
         float vertical = Input.GetAxis("Vertical") * Time.deltaTime * _speed;
 
-        this.rigid.MovePosition(this.transform.position + this.transform.rotation * new Vector3(horizontal, 0, vertical));
+        if (horizontal != 0 || vertical != 0)
+        {
+            hasMoved = true;
+        }
+
+        this.rigid.MovePosition(this.transform.position + new Vector3(horizontal, 0, vertical));
     }
     void RotateCamera()
     {
@@ -44,5 +50,16 @@ public class Movement : MonoBehaviour
             }
         }
 
+    }
+
+    IEnumerator SpawnWave()
+    {
+        if (hasMoved)
+        {
+            hasMoved = false;
+            Instantiate(WaveSpawn, new Vector3(transform.position.x,transform.position.y + 0.2f,transform.position.z), Quaternion.Euler(90,0,0));
+        }
+        yield return new WaitForSeconds(1);
+        StartCoroutine(SpawnWave());
     }
 }
