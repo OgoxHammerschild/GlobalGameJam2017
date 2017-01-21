@@ -9,14 +9,22 @@ public class Movement : MonoBehaviour
     [SerializeField]
     private float _speed = 1;
 
+    [SerializeField]
+    private Animator animate;
+    [SerializeField]
+    private AnimationEvent ev;
     private bool hasMoved = false;
+    private bool isSneaking;
 
     public GameObject WaveSpawn;
     // Use this for initialization
     void Start()
     {
         this.rigid = GetComponent<Rigidbody>();
-        StartCoroutine(SpawnWave());
+        this.animate = GetComponent<Animator>();
+        isSneaking = false;
+        ev = new AnimationEvent();
+        //StartCoroutine(SpawnWave());
     }
 
     // Update is called once per frame
@@ -24,6 +32,8 @@ public class Movement : MonoBehaviour
     {
         MoveCharacter();
         RotateCamera();
+        Sneaking();
+        Debug.Log(_speed);
     }
 
     void MoveCharacter()
@@ -34,9 +44,15 @@ public class Movement : MonoBehaviour
         if (horizontal != 0 || vertical != 0)
         {
             hasMoved = true;
+            this.animate.SetFloat("Speed", _speed);
+        }
+        else
+        {
+            this.animate.SetFloat("Speed", 0);
         }
 
         this.rigid.MovePosition(this.transform.position + new Vector3(horizontal, 0, vertical));
+        
     }
     void RotateCamera()
     {
@@ -53,14 +69,40 @@ public class Movement : MonoBehaviour
 
     }
 
+    void InstantiateSoundWave(int feet)
+    {
+        if (feet == 0 && isSneaking || feet == 1 && isSneaking)
+        {
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.5f;
+        }
+        else
+        {
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
+        }
+    }
+
     IEnumerator SpawnWave()
     {
         if (hasMoved)
         {
             hasMoved = false;
-            Instantiate(WaveSpawn, new Vector3(transform.position.x,transform.position.y - 0.01f,transform.position.z), Quaternion.Euler(90,0,0));
         }
         yield return new WaitForSeconds(1);
         StartCoroutine(SpawnWave());
+    }
+
+    void Sneaking()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            isSneaking = true;
+            _speed = 0.5f;
+        }
+        else
+        {
+            isSneaking = false;
+            _speed = 1;
+        }
     }
 }
