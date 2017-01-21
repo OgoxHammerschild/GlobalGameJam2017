@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class IngameUIEventhandler
 {
-    public delegate void PlayerEvents(float value);
+    public delegate void PlayerEvents(float nvalue);
     public static event PlayerEvents OnMovementChange;
     public static event PlayerEvents OnRadioactiveChange;
 
