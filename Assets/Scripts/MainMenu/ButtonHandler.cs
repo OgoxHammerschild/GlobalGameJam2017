@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class ButtonHandler : MonoBehaviour
 {
-    
+    #region MainMenu
+
     public void OnStartButtonClick()
     {
-        SceneManager.LoadScene("MainLevel");
+        SceneManager.LoadScene("Cellar");
     }
 
     public void OnOptionsButtonClick()
@@ -20,4 +21,23 @@ public class ButtonHandler : MonoBehaviour
     {
         MainMenuEventHandler.F_OnPanelClick("Return");
     }
+
+    public void OnQuitButtonClick()
+    {
+        MainMenuEventHandler.F_OnPanelClick("Quit");
+    }
+    #endregion
+
+    #region QuitPanel
+
+    public void OnYesButtonClick()
+    {
+        Application.Quit();
+    }
+
+    public void OnNoButtonClick()
+    {
+        MainMenuEventHandler.F_OnPanelClick("Return");
+    }
+    #endregion
 }

@@ -8,6 +8,8 @@ public class PanelHandler : MonoBehaviour
     public GameObject P_MainMenu;
     public GameObject P_Options;
     public GameObject P_Credits;
+    public GameObject P_Quit;
+    public GameObject B_Back;
     GameObject _currentPanel;
     GameObject _newPanel;
     GameObject _lastPanel;
@@ -41,6 +43,9 @@ public class PanelHandler : MonoBehaviour
                 break;
             case "P_MainMenu":
                 _newPanel = P_MainMenu;
+                break;
+            case "Quit":
+                _newPanel = P_Quit;
                 break;
             case "Return":
                 _newPanel = _lastPanel;
