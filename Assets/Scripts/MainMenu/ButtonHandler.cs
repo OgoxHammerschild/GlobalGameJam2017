@@ -26,6 +26,11 @@ public class ButtonHandler : MonoBehaviour
     {
         MainMenuEventHandler.F_OnPanelClick("Quit");
     }
+
+    public void OnCreditsButtonClick()
+    {
+        MainMenuEventHandler.F_OnPanelClick("P_Credits");
+    }
     #endregion
 
     #region QuitPanel
