@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts.Utility;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -37,8 +35,11 @@ public class WaveExpander : MonoBehaviour
             return;
 
         _myTransform = GetComponent<Transform>();
-        Renderer render = GetComponent<Renderer>();
-        render.sortingLayerName = "Wave";
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer)
+        {
+            renderer.sortingLayerName = "Wave";
+        }
     }
 
     // Update is called once per frame
@@ -47,6 +48,7 @@ public class WaveExpander : MonoBehaviour
         if (!Application.isPlaying)
         {
             _totalExpansion = TotalExpansionTime * ExpansionPerSecond;
+            return;
         }
 
         _lifeTime += Time.deltaTime;
