@@ -11,8 +11,6 @@ public class Movement : MonoBehaviour
 
     [SerializeField]
     private Animator animate;
-    [SerializeField]
-    private AnimationEvent ev;
     private bool hasMoved = false;
     private bool isSneaking;
     public bool UseSocks;
@@ -25,8 +23,6 @@ public class Movement : MonoBehaviour
         this.animate = GetComponent<Animator>();
         isSneaking = false;
         UseSocks = false;
-        ev = new AnimationEvent();
-        //StartCoroutine(SpawnWave());
     }
 
     // Update is called once per frame
@@ -78,20 +74,26 @@ public class Movement : MonoBehaviour
         {
             GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
             temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.5f;
+            IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
         }
         else if (feet == 0 && isSneaking && UseSocks || feet == 1 && isSneaking && UseSocks)
         {
             GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
             temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.1f;
+            IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
+
         }
         else if (feet == 0 && UseSocks || feet == 1 && UseSocks)
         {
             GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
             temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.4f;
+            IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
+
         }
         else
         {
             GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
         }
     }
 
