@@ -31,7 +31,7 @@ public class Movement : MonoBehaviour
         MoveCharacter();
         RotateCamera();
         Sneaking();
-        Debug.Log(_speed);
+        //Debug.Log(_speed);
         
     }
 
