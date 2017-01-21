@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Utility;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class WaveExpander : MonoBehaviour
 {
     public enum Plane { XY, XZ, YZ }
@@ -22,20 +24,33 @@ public class WaveExpander : MonoBehaviour
     /// </summary>
     public Plane ExpansionPlane = Plane.XZ;
 
+    [SerializeField, ReadOnly]
+    private float _totalExpansion = -1;
+
     private float _lifeTime;
     private Transform _myTransform;
 
     // Use this for initialization
     void Start()
     {
+        if (!Application.isPlaying)
+            return;
+
         _myTransform = GetComponent<Transform>();
+        Renderer render = GetComponent<Renderer>();
+        render.sortingLayerName = "Wave";
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!Application.isPlaying)
+        {
+            _totalExpansion = TotalExpansionTime * ExpansionPerSecond;
+        }
+
         _lifeTime += Time.deltaTime;
-        if (_lifeTime < TotalExpansionTime)
+        if (_lifeTime < TotalExpansionTime && _myTransform != null)
         {
             switch (ExpansionPlane)
             {
