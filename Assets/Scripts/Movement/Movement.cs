@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour
     private AnimationEvent ev;
     private bool hasMoved = false;
     private bool isSneaking;
+    public bool UseSocks;
 
     public GameObject WaveSpawn;
     // Use this for initialization
@@ -23,6 +24,7 @@ public class Movement : MonoBehaviour
         this.rigid = GetComponent<Rigidbody>();
         this.animate = GetComponent<Animator>();
         isSneaking = false;
+        UseSocks = false;
         ev = new AnimationEvent();
         //StartCoroutine(SpawnWave());
     }
@@ -34,6 +36,7 @@ public class Movement : MonoBehaviour
         RotateCamera();
         Sneaking();
         Debug.Log(_speed);
+        
     }
 
     void MoveCharacter()
@@ -71,10 +74,20 @@ public class Movement : MonoBehaviour
 
     void InstantiateSoundWave(int feet)
     {
-        if (feet == 0 && isSneaking || feet == 1 && isSneaking)
+        if (feet == 0 && isSneaking && !UseSocks || feet == 1 && isSneaking && !UseSocks)
         {
             GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
             temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.5f;
+        }
+        else if (feet == 0 && isSneaking && UseSocks || feet == 1 && isSneaking && UseSocks)
+        {
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.1f;
+        }
+        else if (feet == 0 && UseSocks || feet == 1 && UseSocks)
+        {
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.4f;
         }
         else
         {
