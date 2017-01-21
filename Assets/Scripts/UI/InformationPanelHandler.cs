@@ -17,7 +17,7 @@ public class InformationPanelHandler : MonoBehaviour
     private void SetupTexts()
     {
         RadioactiveValue.text = string.Format("Nukular: {0}", 0);
-        NoiseValue_Text.text = string.Format("Noise: {0}", 0);
+        NoiseValue_Text.text = string.Format("Noise : {0}", 0);
 
     }
 
