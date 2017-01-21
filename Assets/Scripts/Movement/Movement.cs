@@ -47,6 +47,7 @@ public class Movement : MonoBehaviour
             if (hit.transform.gameObject.tag == "Ground")
             {
                 this.transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
+                this.transform.Rotate(90, 0, 0);
             }
         }
 
@@ -57,7 +58,7 @@ public class Movement : MonoBehaviour
         if (hasMoved)
         {
             hasMoved = false;
-            Instantiate(WaveSpawn, new Vector3(transform.position.x,transform.position.y + 0.2f,transform.position.z), Quaternion.Euler(90,0,0));
+            Instantiate(WaveSpawn, new Vector3(transform.position.x,transform.position.y - 0.01f,transform.position.z), Quaternion.Euler(90,0,0));
         }
         yield return new WaitForSeconds(1);
         StartCoroutine(SpawnWave());

@@ -29,6 +29,8 @@ public class WaveExpander : MonoBehaviour
     void Start()
     {
         _myTransform = GetComponent<Transform>();
+        Renderer render = GetComponent<Renderer>();
+        render.sortingLayerName = "Wave";
     }
 
     // Update is called once per frame
