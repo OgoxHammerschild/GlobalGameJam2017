@@ -16,6 +16,7 @@ public class LightManager : MonoBehaviour {
         for (int i = 0; i < LightObject.Length; i++)
         {
             LightRenderer[i] = LightObject[i].GetComponent<SpriteRenderer>();
+            LightRenderer[i].enabled = false;
         }
 	}
 
