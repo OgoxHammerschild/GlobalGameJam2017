@@ -32,6 +32,7 @@ public class Movement : MonoBehaviour
         MoveCharacter();
         RotateCamera();
         Sneaking();
+        CheckDoor();
         //Debug.Log(_speed);
         
     }
@@ -98,14 +99,17 @@ public class Movement : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnWave()
+    void CheckDoor()
     {
-        if (hasMoved)
+        RaycastHit hit;
+        if (Physics.Raycast(this.transform.position,Vector3.forward,out hit,4f))
         {
-            hasMoved = false;
+            if (hit.transform.CompareTag("Door") && HasKeyCard)
+            {
+                hit.transform.gameObject.GetComponent<Animator>().SetBool("IsOpened", true);
+                hit.transform.gameObject.GetComponent<BoxCollider>().enabled = false;
+            }
         }
-        yield return new WaitForSeconds(1);
-        StartCoroutine(SpawnWave());
     }
 
     void Sneaking()
