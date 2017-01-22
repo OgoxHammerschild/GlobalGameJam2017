@@ -74,27 +74,27 @@ public class Movement : MonoBehaviour
     {
         if (feet == 0 && isSneaking && !UseSocks || feet == 1 && isSneaking && !UseSocks)
         {
-            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.10f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - .20f, transform.position.z), Quaternion.Euler(90, 0, 0));
             temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.5f;
             IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
         }
         else if (feet == 0 && isSneaking && UseSocks || feet == 1 && isSneaking && UseSocks)
         {
-            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.10f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - .20f, transform.position.z), Quaternion.Euler(90, 0, 0));
             temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.1f;
             IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
 
         }
         else if (feet == 0 && UseSocks || feet == 1 && UseSocks)
         {
-            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.10f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - .20f, transform.position.z), Quaternion.Euler(90, 0, 0));
             temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.4f;
             IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
 
         }
         else
         {
-            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.10f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - .20f, transform.position.z), Quaternion.Euler(90, 0, 0));
             IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
         }
     }
