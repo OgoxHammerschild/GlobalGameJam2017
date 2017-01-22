@@ -22,6 +22,9 @@ public class WaveExpander : MonoBehaviour
     /// </summary>
     public Plane ExpansionPlane = Plane.XZ;
 
+    /// <summary>
+    /// The total expansion in percent that will be a added over the specified time (TotalExpansionTime * ExpansionPerSecond)
+    /// </summary>
     [SerializeField, ReadOnly]
     private float _totalExpansion = -1;
 
