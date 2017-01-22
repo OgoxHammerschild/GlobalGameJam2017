@@ -115,7 +115,7 @@ public class SecretServiceAgent : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            Destroy(collision.collider.gameObject);
+            //Destroy(collision.collider.gameObject);
         }
     }
 

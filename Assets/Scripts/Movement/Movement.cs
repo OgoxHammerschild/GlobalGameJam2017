@@ -15,6 +15,9 @@ public class Movement : MonoBehaviour
     private bool isSneaking;
     public bool UseSocks;
     public bool HasKeyCard;
+    public bool HasKeyCard2;
+    public bool HasKeyCard3;
+
 
     public GameObject WaveSpawn;
     // Use this for initialization
@@ -102,9 +105,19 @@ public class Movement : MonoBehaviour
     void CheckDoor()
     {
         RaycastHit hit;
-        if (Physics.Raycast(this.transform.position,Vector3.forward,out hit,4f))
+        if (Physics.Raycast(this.transform.position,this.transform.up,out hit,2f))
         {
-            if (hit.transform.CompareTag("Door") && HasKeyCard)
+            if (hit.transform.tag == "Door" && HasKeyCard)
+            {
+                hit.transform.gameObject.GetComponent<Animator>().SetBool("IsOpened", true);
+                hit.transform.gameObject.GetComponent<BoxCollider>().enabled = false;
+            }
+            if (hit.transform.tag == "Door2" && HasKeyCard2)
+            {
+                hit.transform.gameObject.GetComponent<Animator>().SetBool("IsOpened", true);
+                hit.transform.gameObject.GetComponent<BoxCollider>().enabled = false;
+            }
+            if (hit.transform.tag == "Door3" && HasKeyCard2)
             {
                 hit.transform.gameObject.GetComponent<Animator>().SetBool("IsOpened", true);
                 hit.transform.gameObject.GetComponent<BoxCollider>().enabled = false;
