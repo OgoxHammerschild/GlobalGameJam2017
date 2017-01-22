@@ -18,6 +18,8 @@ public class Movement : MonoBehaviour
     public bool HasKeyCard2;
     public bool HasKeyCard3;
 
+    public bool HasXRay;
+
 
     public GameObject WaveSpawn;
     // Use this for initialization
@@ -99,6 +101,21 @@ public class Movement : MonoBehaviour
         {
             GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - .20f, transform.position.z), Quaternion.Euler(90, 0, 0));
             IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
+        }
+    }
+
+    void Xray()
+    {
+        if (HasXRay && Input.GetKey(KeyCode.E))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(this.transform.position, this.transform.up, out hit, 2f))
+            {
+                if (hit.transform.gameObject.CompareTag("Xray"))
+                {
+                    hit.transform.gameObject.GetComponent<Level>().TurnOffFogOfWar();
+                }
+            }
         }
     }
 
