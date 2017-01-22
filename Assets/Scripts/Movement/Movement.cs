@@ -14,6 +14,7 @@ public class Movement : MonoBehaviour
     private bool hasMoved = false;
     private bool isSneaking;
     public bool UseSocks;
+    public bool HasKeyCard;
 
     public GameObject WaveSpawn;
     // Use this for initialization
@@ -31,6 +32,7 @@ public class Movement : MonoBehaviour
         MoveCharacter();
         RotateCamera();
         Sneaking();
+        CheckDoor();
         //Debug.Log(_speed);
         
     }
@@ -72,39 +74,42 @@ public class Movement : MonoBehaviour
     {
         if (feet == 0 && isSneaking && !UseSocks || feet == 1 && isSneaking && !UseSocks)
         {
-            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.10f, transform.position.z), Quaternion.Euler(90, 0, 0));
             temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.5f;
             IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
         }
         else if (feet == 0 && isSneaking && UseSocks || feet == 1 && isSneaking && UseSocks)
         {
-            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.10f, transform.position.z), Quaternion.Euler(90, 0, 0));
             temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.1f;
             IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
 
         }
         else if (feet == 0 && UseSocks || feet == 1 && UseSocks)
         {
-            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.10f, transform.position.z), Quaternion.Euler(90, 0, 0));
             temp.GetComponent<WaveExpander>().TotalExpansionTime = 0.4f;
             IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
 
         }
         else
         {
-            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), Quaternion.Euler(90, 0, 0));
+            GameObject temp = Instantiate(WaveSpawn, new Vector3(transform.position.x, transform.position.y - 0.10f, transform.position.z), Quaternion.Euler(90, 0, 0));
             IngameUIEventhandler.F_OnMovementChange(temp.GetComponent<WaveExpander>().TotalExpansionTime * 100);
         }
     }
 
-    IEnumerator SpawnWave()
+    void CheckDoor()
     {
-        if (hasMoved)
+        RaycastHit hit;
+        if (Physics.Raycast(this.transform.position,Vector3.forward,out hit,4f))
         {
-            hasMoved = false;
+            if (hit.transform.CompareTag("Door") && HasKeyCard)
+            {
+                hit.transform.gameObject.GetComponent<Animator>().SetBool("IsOpened", true);
+                hit.transform.gameObject.GetComponent<BoxCollider>().enabled = false;
+            }
         }
-        yield return new WaitForSeconds(1);
-        StartCoroutine(SpawnWave());
     }
 
     void Sneaking()
