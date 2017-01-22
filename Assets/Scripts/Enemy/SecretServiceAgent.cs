@@ -18,6 +18,7 @@ public class SecretServiceAgent : MonoBehaviour
 
     private Vector3 _nextPatrolPoint;
     private Queue<Vector3> _patrolPoints = new Queue<Vector3>();
+    private Vector3 _originalPosition;
 
     private Transform _player;
 
@@ -32,7 +33,11 @@ public class SecretServiceAgent : MonoBehaviour
 
         if (PatrolPoints.Count > 0)
         {
-            PatrolPoints.ForEach(point => _patrolPoints.Enqueue(point.position));
+            foreach (var point in PatrolPoints)
+            {
+                _patrolPoints.Enqueue(point.position);
+            }
+
             _nextPatrolPoint = _patrolPoints.Dequeue();
             if (_agent)
             {
@@ -41,6 +46,7 @@ public class SecretServiceAgent : MonoBehaviour
         }
 
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        _originalPosition = _myTransform.position;
     }
 
     void Update()
@@ -61,7 +67,14 @@ public class SecretServiceAgent : MonoBehaviour
         }
         else if (_agent.destination != _nextPatrolPoint)
         {
-            _agent.SetDestination(_nextPatrolPoint);
+            if (Vector3.Distance(_myTransform.position, _nextPatrolPoint) > _stoppingDistance)
+            {
+                _agent.SetDestination(_nextPatrolPoint);
+            }
+            else
+            {
+                _agent.Stop();
+            }
         }
 
         if (_examinedSound)
@@ -85,7 +98,15 @@ public class SecretServiceAgent : MonoBehaviour
             {
                 _patrolPoints.Enqueue(_nextPatrolPoint);
                 _nextPatrolPoint = _patrolPoints.Dequeue();
+                _agent.SetDestination(_nextPatrolPoint);
+                _agent.Resume();
             }
+        }
+        else if(Vector3.Distance(_myTransform.position, _originalPosition) <= _stoppingDistance)
+        {
+            _agent.SetDestination(_originalPosition);
+            _nextPatrolPoint = _originalPosition;
+            _agent.Resume();
         }
     }
 
@@ -115,24 +136,32 @@ public class SecretServiceAgent : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            Destroy(collision.collider.gameObject);
+            //Destroy(collision.collider.gameObject);
         }
     }
 
     private bool CanSeePlayer()
     {
         if (!_player)
-            return false;
+        {
+            _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+            if (!_player)
+            {
+                print(name + " has no player");
+                return false;
+            }
+        }
 
         RaycastHit hit;
         Vector3 rayDirection = _player.position - _myTransform.position;
 
         if (Mathf.Abs(Vector3.Angle(rayDirection, transform.forward)) <= _fieldOfView / 2)
         {
-            if (Physics.Raycast(_myTransform.position, rayDirection, out hit, 2))
+            if (Physics.Raycast(_myTransform.position, rayDirection, out hit, 1, 1 << LayerMask.NameToLayer("Player"), QueryTriggerInteraction.Ignore))
             {
                 if (hit.transform.CompareTag("Player"))
                 {
+                    print("Hit");
                     return true;
                 }
             }
