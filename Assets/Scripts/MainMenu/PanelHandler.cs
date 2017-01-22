@@ -9,7 +9,9 @@ public class PanelHandler : MonoBehaviour
     public GameObject P_Options;
     public GameObject P_Credits;
     public GameObject P_Quit;
+    public GameObject P_Introduction;
     public GameObject B_Back;
+    public GameObject B_Credits;
     GameObject _currentPanel;
     GameObject _newPanel;
     GameObject _lastPanel;
@@ -50,8 +52,19 @@ public class PanelHandler : MonoBehaviour
             case "Return":
                 _newPanel = _lastPanel;
                 break;
+            case "Begin":
+                _newPanel = P_Introduction;
+                break;
             default:
                 break;
+        }
+        if (nPanel == "Begin")
+        {
+            B_Credits.gameObject.SetActive(false);
+        }
+        else
+        {
+            B_Credits.gameObject.SetActive(true);
         }
     }
 

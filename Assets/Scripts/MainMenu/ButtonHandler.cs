@@ -44,5 +44,10 @@ public class ButtonHandler : MonoBehaviour
     {
         MainMenuEventHandler.F_OnPanelClick("Return");
     }
+
+    public void OnBeginButtonClick()
+    {
+        MainMenuEventHandler.F_OnPanelClick("Begin");
+    }
     #endregion
 }
